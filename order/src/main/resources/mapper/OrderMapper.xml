@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="order.mapper.OrderMapper">
+    <insert id="createOrder" parameterType="order.entity.Order">
+        insert into orders
+        values (#{id}, #{username},#{tel},#{address}, #{productId}, #{amount}, #{totalPrice}, #{createTime});
+    </insert>
+    <select id="getOrderById" parameterType="Integer" resultType="order.entity.Order">
+        select *
+        from orders
+        where id = #{id};
+    </select>
+</mapper>
