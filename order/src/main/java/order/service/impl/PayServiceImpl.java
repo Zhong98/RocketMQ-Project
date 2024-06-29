@@ -16,7 +16,6 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.messaging.Message;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -39,7 +38,6 @@ public class PayServiceImpl implements PayService {
     Gson gson = new Gson();
 
     @Override
-    @Transactional
     @Retryable
     public String pay(String username, int productId, int amount) {
         if (products.isEmpty()) {
@@ -79,30 +77,6 @@ public class PayServiceImpl implements PayService {
         LocalTransactionState localTransactionState = sendResult.getLocalTransactionState();
         log.info(localTransactionState.toString());
 
-        updateBalance(user, totalPrice);
-        updateProductStock(product, amount);
-
         return "OK";
     }
-
-    @Transactional
-    public void updateBalance(User user, int totalPrice) {
-        try {
-            userMapper.updateBalance(user.getUsername(), user.getBalance() - totalPrice);
-        } catch (Exception e) {
-            System.out.println(2);
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Transactional
-    public void updateProductStock(Product product, int amount) {
-        try {
-            productMapper.updateProductStock(product.getId(), product.getStock() - amount);
-        } catch (Exception e) {
-            System.out.println(3);
-            throw new RuntimeException(e);
-        }
-    }
-
 }

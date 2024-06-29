@@ -7,6 +7,10 @@
         select * from products;
     </select>
 
+    <select id="selectProductById" resultType="order.entity.Product">
+        select * from products where id=#{productId};
+    </select>
+
     <update id="updateProductStock">
         update products set stock=#{newStock} where id=#{productId};
     </update>

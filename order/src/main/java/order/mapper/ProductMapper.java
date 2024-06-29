@@ -9,4 +9,5 @@ import java.util.List;
 public interface ProductMapper {
     List<Product> selectAllProduct();
     int updateProductStock(int productId, int newStock);
+    Product selectProductById(int productId);
 }
